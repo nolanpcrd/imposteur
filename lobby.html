@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lobby</title>
+    <script type="module" src="lobby.js"></script>
+    <script type="module">
+        import { leave, listenToUsers, ready, verifyEverybodyReady, deleteAllUsers } from './lobby.js';
+        listenToUsers();
+        verifyEverybodyReady();
+        document.addEventListener('DOMContentLoaded', () => {
+            const leaveButton = document.getElementById('leave-button');
+            leaveButton.addEventListener('click', leave);
+            const readyButton = document.getElementById('ready-button');
+            readyButton.addEventListener('click', ready);
+            const deleteUsers = document.getElementById('delete-users');
+            deleteUsers.addEventListener('click', deleteAllUsers);
+        });
+    </script>
+    <link rel="stylesheet" href="jeu.css">
+</head>
+<body>
+
+<h1>lobby</h1>
+<button id="leave-button">quitter la partie</button>
+<button id="ready-button">prêt !</button>
+<button id="delete-users">BUG - supprimer tout le monde</button>
+<div class="users-container"></div>
+
+</body>
+</html>

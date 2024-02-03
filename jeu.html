@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="module" src="jeu.js"></script>
+    <link rel="stylesheet" href="jeu.css">
+    <script type="module">
+        import { leave, listenToUsers, deleteAllUsers, initGame } from './jeu.js';
+        initGame();
+        listenToUsers();
+        document.addEventListener('DOMContentLoaded', () => {
+            const leaveButton = document.getElementById('leave-button');
+            leaveButton.addEventListener('click', leave);
+            const deleteUsers = document.getElementById('delete-users');
+            deleteUsers.addEventListener('click', deleteAllUsers);
+        });
+    </script>
+</head>
+<body>
+
+<h1 id="mot"></h1>
+<button id="leave-button">quitter la partie</button>
+<button id="delete-users">BUG - supprimer tout le monde</button>
+
+<div class="users-container"></div>
+
+<div id="pop-up">
+    <h2></h2>
+    <label for="texte">Écrivez un mot</label>
+    <input type="text" id="texte">
+    <button id="envoyer">Envoyer</button>
+</div>
+
+</body>
+</html>

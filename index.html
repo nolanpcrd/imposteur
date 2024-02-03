@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Imposteur</title>
+    <link rel="stylesheet" href="style.css">
+    <script type="module" src="script.js"></script>
+    <script type="module">
+        import { joinLobby } from './script.js';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const sendButton = document.getElementById('jouer');
+            sendButton.addEventListener('click', joinLobby);
+
+            const nameInput = document.getElementById('entrer-nom');
+            nameInput.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    event.preventDefault();
+                    joinLobby();
+                }
+            });
+            nameInput.focus();
+        });
+    </script>
+</head>
+<body>
+
+<h1 id="Title">IMPOSTEUR</h1>
+
+<label for="entrer-nom">Quel est ton nom ?</label>
+<input type="text" id="entrer-nom">
+<button id="jouer">Jouer</button>
+
+</body>
+</html>
