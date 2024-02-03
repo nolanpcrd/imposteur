@@ -26,7 +26,8 @@ const database = getFirestore(firebaseApp);
 const usersCollection = collection(database, 'users');
 let unsubscribe;
 let intervalId = setInterval(async () => {
-    afficherMotsUtilisateurs();
+    await afficherMotsUtilisateurs();
+    await verifierTour();
     const allWordsPlayed = await verifierMotsJoues();
     if (allWordsPlayed) {
         clearInterval(intervalId); // Arrêter l'intervalle
@@ -112,9 +113,7 @@ export async function initGame() {
         const users = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
         for (let i = 0; i < users.length; i++) {
-            if (users[i].gameID === 0) {
-                users[i].gameID = i + 1;
-            }
+            users[i].gameID = i + 1;
             users[i].imposteur = false;
             users[i].tour = false;
         }
@@ -133,10 +132,6 @@ export async function initGame() {
     await distribuerMots('chien', 'chat');
     showScores();
     await afficherMots();
-    afficherMotsUtilisateurs();
-    listenToTurnChanges();
-    listenToWords();
-    await verifierTour();
 }
 
 async function afficherMots() {
@@ -206,21 +201,6 @@ async function verifierTour () {
             }
         });
     }
-}
-
-function listenToWords() {
-    const query1 = query(usersCollection);
-    unsubscribe = onSnapshot(query1, (snapshot) => {
-        snapshot.docChanges().forEach(async (change) => {
-            if (change.type === 'modified' && change.oldDoc) {
-                const user = { id: change.doc.id, ...change.doc.data() };
-                const oldUser = change.oldDoc.exists ? { id: change.doc.id, ...change.oldDoc.data() } : null;
-                if (oldUser && (user.mot1 !== oldUser.mot1 || user.mot2 !== oldUser.mot2 || user.mot3 !== oldUser.mot3)) {
-                    await afficherMotsUtilisateurs();
-                }
-            }
-        });
-    });
 }
 
 async function afficherMotsUtilisateurs() {
